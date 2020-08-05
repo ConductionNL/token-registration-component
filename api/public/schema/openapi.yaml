@@ -1,18 +1,18 @@
 openapi: 3.0.2
 info:
-  title: 'Proto component commonground'
+  title: 'Token registration component'
   version: V.0.1
   description: |
     API Details
-    - Component: Proto component commonground
-    - Reference: pc
+    - Component: Token registration component
+    - Reference: trc
     - Enviroment: dev
     - Version: V.0.1
     - Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)
-    - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/pc-php) 
-    - Datamodel: [postman](/schema/pc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
+    - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/trc-php) 
+    - Datamodel: [postman](/schema/trc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
     
-    'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
+    "Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar."         
     
 paths:
   /audit_trails:
@@ -1942,6 +1942,881 @@ paths:
             schema:
               $ref: '#/components/schemas/ChangeLog-write'
         description: 'The updated ChangeLog resource'
+  /tokens:
+    get:
+      tags:
+        - Token
+      operationId: getTokenCollection
+      summary: 'Retrieves the collection of Token resources.'
+      responses:
+        200:
+          description: 'Token collection response'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Token:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json+ld:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Token:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            application/json+hal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            application/json+vnd.api:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            application/health+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            application/json+health:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+            default: 1
+        -
+          name: limit
+          in: query
+          required: false
+          description: 'The number of items per page'
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      produces:
+        - application/health+json
+    post:
+      tags:
+        - Token
+      operationId: postTokenCollection
+      summary: 'Creates a Token resource.'
+      responses:
+        201:
+          description: 'Token resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+          links:
+            GetTokenItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getTokenItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /tokens/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Token:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Token:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+        description: 'The new Token resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/tokens/{id}':
+    get:
+      tags:
+        - Token
+      operationId: getTokenItem
+      summary: 'Retrieves a Token resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Token resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+    put:
+      tags:
+        - Token
+      operationId: putTokenItem
+      summary: 'Replaces the Token resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+      responses:
+        200:
+          description: 'Token resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Token:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Token:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Token-write'
+        description: 'The updated Token resource'
+    delete:
+      tags:
+        - Token
+      operationId: deleteTokenItem
+      summary: 'Removes the Token resource.'
+      responses:
+        204:
+          description: 'Token resource deleted'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/tokens/{id}/audit_trail':
+    get:
+      tags:
+        - Token
+      operationId: get_audit_trailTokenItem
+      summary: 'Retrieves a Token resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Token resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+  '/tokens/{id}/change_log':
+    get:
+      tags:
+        - Token
+      operationId: get_change_logsTokenItem
+      summary: 'Retrieves a Token resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Token resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Token:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Token-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
 components:
   schemas:
     AuditTrail-read:
@@ -2322,7 +3197,122 @@ components:
         '@type':
           readOnly: true
           type: string
+    Token-read:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this resource'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        code:
+          description: 'The shortcode for the checking component'
+          type: string
+        dateCreated:
+          description: 'The date and time the token was created'
+          type: string
+          format: date-time
+          nullable: true
+        dateModified:
+          description: 'The date and time the token was last modified'
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - code
+    Token-write:
+      type: object
+      description: ''
+      required:
+        - code
+      properties:
+        code:
+          description: 'The shortcode for the checking component'
+          type: string
+    'Token:jsonld-read':
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this resource'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        code:
+          description: 'The shortcode for the checking component'
+          type: string
+        dateCreated:
+          description: 'The date and time the token was created'
+          type: string
+          format: date-time
+          nullable: true
+        dateModified:
+          description: 'The date and time the token was last modified'
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - code
+    'Token:jsonld-write':
+      type: object
+      description: ''
+      required:
+        - code
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        code:
+          description: 'The shortcode for the checking component'
+          type: string
 definitions:
+  Token-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this resource'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      code:
+        description: 'The shortcode for the checking component'
+        type: string
+        example: vcs
+      dateCreated:
+        description: 'The date and time the token was created'
+        type: \DateTime
+      dateModified:
+        description: 'The date and time the token was last modified'
+        type: \DateTime
+    required:
+      - code
+  Token-write:
+    properties:
+      code:
+        description: 'The shortcode for the checking component'
+        type: string
+        example: vcs
+    required:
+      - code
   AuditTrail-read:
     properties:
       id:
@@ -2427,12 +3417,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-08 14:50:39'
+        example: '2020-08-05 09:26:35'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-08 14:50:39'
+        example: '2020-08-05 09:26:35'
     required: []
   AuditTrail-write:
     properties:
@@ -2480,12 +3470,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-08 14:50:39'
+        example: '2020-08-05 09:26:35'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-08 14:50:39'
+        example: '2020-08-05 09:26:35'
     required: []
   ChangeLog-write:
     properties:
@@ -2496,6 +3486,12 @@ definitions:
         maxLength: 2555
     required: []
 tags:
+  -
+    name: Token
+    description: |
+      
+      
+      
   -
     name: AuditTrail
     description: |
@@ -2527,7 +3523,7 @@ host: irc.zaakonline.nl
 servers:
   -
     name: conduction.nl
-    url: pc.dev.conduction.nl
+    url: trc.dev.conduction.nl
 externalDocs:
   -
     description: 'OAS Documentatie'

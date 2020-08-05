@@ -4,18 +4,18 @@
 
 settings:
   registryBase: docker.io/conduction
-  projectName: pc
-  name: pc
-  title: Proto component commonground
+  projectName: trc
+  name: trc
+  title: Token registration component
   version: V.0.1
   id: 
-  description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&#039;'
+  description: '&quot;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&quot;'
   type: component
   repro: https://github.com/ConductionNL/proto-component
-  demo: pc.zaakonline.nl
-  container: https://hub.docker.com/repository/docker/conduction/pc-php
+  demo: trc.zaakonline.nl
+  container: https://hub.docker.com/repository/docker/conduction/trc-php
   domain: conduction.nl
-  subdomain: pc
+  subdomain: trc
   organisationName: Conduction
   email: info@conduction.nl
   country: Netherlands
