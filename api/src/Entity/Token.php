@@ -73,6 +73,7 @@ class Token
      * @var string The message the checking component logged
      *
      * @example OK
+     * @Groups({"read","write"})
      * @ORM\Column(type="text")
      */
     private $message;
@@ -101,6 +102,7 @@ class Token
      * @example https://vcc.prod/requests/{uuid}
      * @Assert\NotNull
      * @Assert\Url
+     * @Groups({"read","write"})
      * @ORM\Column(type="string", length=255)
      */
     private $uri;
