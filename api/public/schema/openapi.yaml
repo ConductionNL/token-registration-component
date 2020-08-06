@@ -3208,12 +3208,28 @@ components:
             url: 'http://schema.org/identifier'
           type: string
           format: uuid
-        code:
-          description: 'The shortcode for the checking component'
+        name:
+          description: 'The name of this token'
+          type: string
+        description:
+          description: 'The description of the token'
+          type: string
+          nullable: true
+        reference:
+          description: 'The human-readable reference of this token'
+          type: string
+        status:
+          description: 'The status of the performed check'
           type: string
         message:
           description: 'The message the checking component logged'
           type: string
+        resource:
+          description: 'The uri of the performed check'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
         dateCreated:
           description: 'The date and time the token was created'
           type: string
@@ -3224,32 +3240,38 @@ components:
           type: string
           format: date-time
           nullable: true
-        uri:
-          description: 'The uri of the performed check'
-          externalDocs:
-            url: 'http://schema.org/url'
-          type: string
       required:
-        - code
-        - uri
+        - name
+        - status
     Token-write:
       type: object
       description: ''
       required:
-        - code
-        - uri
+        - name
+        - status
       properties:
-        code:
-          description: 'The shortcode for the checking component'
+        name:
+          description: 'The name of this token'
+          type: string
+        description:
+          description: 'The description of the token'
+          type: string
+          nullable: true
+        reference:
+          description: 'The human-readable reference of this token'
+          type: string
+        status:
+          description: 'The status of the performed check'
           type: string
         message:
           description: 'The message the checking component logged'
           type: string
-        uri:
+        resource:
           description: 'The uri of the performed check'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
     'Token:jsonld-read':
       type: object
       description: ''
@@ -3270,12 +3292,28 @@ components:
             url: 'http://schema.org/identifier'
           type: string
           format: uuid
-        code:
-          description: 'The shortcode for the checking component'
+        name:
+          description: 'The name of this token'
+          type: string
+        description:
+          description: 'The description of the token'
+          type: string
+          nullable: true
+        reference:
+          description: 'The human-readable reference of this token'
+          type: string
+        status:
+          description: 'The status of the performed check'
           type: string
         message:
           description: 'The message the checking component logged'
           type: string
+        resource:
+          description: 'The uri of the performed check'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
         dateCreated:
           description: 'The date and time the token was created'
           type: string
@@ -3286,20 +3324,15 @@ components:
           type: string
           format: date-time
           nullable: true
-        uri:
-          description: 'The uri of the performed check'
-          externalDocs:
-            url: 'http://schema.org/url'
-          type: string
       required:
-        - code
-        - uri
+        - name
+        - status
     'Token:jsonld-write':
       type: object
       description: ''
       required:
-        - code
-        - uri
+        - name
+        - status
       properties:
         '@context':
           readOnly: true
@@ -3310,17 +3343,28 @@ components:
         '@type':
           readOnly: true
           type: string
-        code:
-          description: 'The shortcode for the checking component'
+        name:
+          description: 'The name of this token'
+          type: string
+        description:
+          description: 'The description of the token'
+          type: string
+          nullable: true
+        reference:
+          description: 'The human-readable reference of this token'
+          type: string
+        status:
+          description: 'The status of the performed check'
           type: string
         message:
           description: 'The message the checking component logged'
           type: string
-        uri:
+        resource:
           description: 'The uri of the performed check'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
 definitions:
   Token-read:
     properties:
@@ -3329,46 +3373,70 @@ definitions:
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
-      code:
-        description: 'The shortcode for the checking component'
+      name:
+        description: 'The name of this token'
         type: string
-        example: vcs
+        example: Zaak
+      description:
+        description: 'The description of the token'
+        type: string
+        example: 'Verzoek omzetten naar zaak'
+      reference:
+        description: 'The human-readable reference of this token'
+        type: string
+        example: Zuid-drecht-2020-1
+      status:
+        description: 'The status of the performed check'
+        type: string
+        example: OK
       message:
         description: 'The message the checking component logged'
         type: string
         example: OK
+      resource:
+        description: 'The uri of the performed check'
+        type: string
+        example: 'https://vcc.prod/requests/{uuid}'
+        format: url
       dateCreated:
         description: 'The date and time the token was created'
         type: \DateTime
       dateModified:
         description: 'The date and time the token was last modified'
         type: \DateTime
-      uri:
-        description: 'The uri of the performed check'
-        type: string
-        example: 'https://vcc.prod/requests/{uuid}'
-        format: url
     required:
-      - code
-      - uri
+      - name
+      - status
   Token-write:
     properties:
-      code:
-        description: 'The shortcode for the checking component'
+      name:
+        description: 'The name of this token'
         type: string
-        example: vcs
+        example: Zaak
+      description:
+        description: 'The description of the token'
+        type: string
+        example: 'Verzoek omzetten naar zaak'
+      reference:
+        description: 'The human-readable reference of this token'
+        type: string
+        example: Zuid-drecht-2020-1
+      status:
+        description: 'The status of the performed check'
+        type: string
+        example: OK
       message:
         description: 'The message the checking component logged'
         type: string
         example: OK
-      uri:
+      resource:
         description: 'The uri of the performed check'
         type: string
         example: 'https://vcc.prod/requests/{uuid}'
         format: url
     required:
-      - code
-      - uri
+      - name
+      - status
   AuditTrail-read:
     properties:
       id:
@@ -3473,12 +3541,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-05 09:37:43'
+        example: '2020-08-06 13:23:41'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-05 09:37:43'
+        example: '2020-08-06 13:23:41'
     required: []
   AuditTrail-write:
     properties:
@@ -3526,12 +3594,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-05 09:37:43'
+        example: '2020-08-06 13:23:41'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-05 09:37:43'
+        example: '2020-08-06 13:23:41'
     required: []
   ChangeLog-write:
     properties:

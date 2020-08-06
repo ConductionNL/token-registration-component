@@ -58,16 +58,45 @@ class Token
     private $id;
 
     /**
-     * @var string The shortcode for the checking component
+     * @var string The name of this token
      *
-     * @example vcs
      *
+     * @example Zaak
      * @Assert\NotNull
      * @Groups({"read","write"})
-     * @Gedmo\Versioned()
      * @ORM\Column(type="string", length=255)
      */
-    private $code;
+    private $name;
+
+    /**
+     * @var string The description of the token
+     *
+     * @example Verzoek omzetten naar zaak
+     * @Groups({"read","write"})
+     * @ORM\Column(type="text",nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var string The human-readable reference of this token
+     *
+     * @example Zuid-drecht-2020-1
+     * @Groups({"read","write"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $reference;
+
+    /**
+     * @var string The status of the performed check
+     *
+     * @example OK
+     *
+     * @Assert\NotNull
+     * @Assert\Choice({"OK","FAILED"})
+     * @Groups({"read","write"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
 
     /**
      * @var string The message the checking component logged
@@ -77,6 +106,23 @@ class Token
      * @ORM\Column(type="text")
      */
     private $message;
+
+    /**
+     * @var string The uri of the performed check
+     *
+     * @example https://vcc.prod/requests/{uuid}
+     * @Assert\Url
+     * @Groups({"read","write"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resource;
+
+    /**@var string The properties that are validated
+     *
+     * @Groups({"read","write"})
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $properties = [];
 
     /**
      * @var DateTime The date and time the token was created
@@ -96,32 +142,9 @@ class Token
      */
     private $dateModified;
 
-    /**
-     * @var string The uri of the performed check
-     *
-     * @example https://vcc.prod/requests/{uuid}
-     * @Assert\NotNull
-     * @Assert\Url
-     * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $uri;
-
     public function getId(): ?UuidInterface
     {
         return $this->id;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
     }
 
     public function getMessage(): ?string
@@ -160,14 +183,74 @@ class Token
         return $this;
     }
 
-    public function getUri(): ?string
+    public function getResource(): ?string
     {
-        return $this->uri;
+        return $this->resource;
     }
 
-    public function setUri(string $uri): self
+    public function setResource(string $resource): self
     {
-        $this->uri = $uri;
+        $this->resource = $resource;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getProperties(): ?array
+    {
+        return $this->properties;
+    }
+
+    public function setProperties(?array $properties): self
+    {
+        $this->properties = $properties;
 
         return $this;
     }
