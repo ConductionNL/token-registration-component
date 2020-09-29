@@ -3,7 +3,7 @@ entries:
   pc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2020-09-29T08:33:08.886778166Z"
+    created: "2020-09-29T08:41:37.337365877Z"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
     digest: 2ccb90fd33c2a73b4448265ccae5bc3dc0c8daa5993ccaa4e8f2101d20963603
@@ -16,14 +16,14 @@ entries:
   trc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2020-09-29T08:33:08.895555166Z"
+    created: "2020-09-29T08:41:37.341383376Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: 50c33fc74c3e647a2cfdca36c50f4bd3e38d7989585e56c847c392f94446bf07
+    digest: 353a735d5396bde6811ad2ab8f99d5d70cf860ba69ffdac1ce75631c061197de
     home: trc.zaakonline.nl
     icon: trc.zaakonline.nl
     name: trc
     urls:
     - trc-0.1.0.tgz
     version: 0.1.0
-generated: "2020-09-29T08:33:08.876851166Z"
+generated: "2020-09-29T08:41:37.333034077Z"
