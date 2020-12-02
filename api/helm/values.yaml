@@ -10,7 +10,7 @@ settings:
   version: V1.0
   majorVersion: v1
   id: 
-  description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
+  description: '&quot;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&quot;'
   type: component
   repro: https://github.com/ConductionNL/proto-component
   demo: trc.zaakonline.nl
