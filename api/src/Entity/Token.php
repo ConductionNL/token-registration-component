@@ -49,7 +49,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(OrderFilter::class)
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(SearchFilter::class, properties={"resource": "exact"})
-
  */
 class Token
 {
@@ -69,7 +68,6 @@ class Token
 
     /**
      * @var string The name of this token
-     *
      *
      * @example Zaak
      * @Assert\NotNull
