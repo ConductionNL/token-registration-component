@@ -328,7 +328,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"code\": \"vcc\",\n    \"message\": \"OK\",\n    \"uri\": \"http://vrc.prod/requests\"\n}"
+							"raw": "{\n    \"name\": \"test\",\n    \"code\": \"vcc\",\n    \"message\": \"OK\",\n    \"status\": \"OK\",\n    \"resource\": \"http://vrc.prod/requests\",\n    \"reference\": \"bla\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/tokens",
@@ -1396,12 +1396,12 @@
 	],
 	"variable": [
 		{
-			"id": "cc8a7494-68a9-4396-ab9b-815020f56640",
+			"id": "99e8f49b-90ce-424a-ad54-967f47e7408f",
 			"key": "baseUrl",
-			"value": "locahost"
+			"value": "localhost"
 		},
 		{
-			"id": "a2be43ba-c9ad-4c0c-9bc3-ea70277a605f",
+			"id": "28eed840-5d9f-4958-8420-a76444d9aeac",
 			"key": "authorization",
 			"value": "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
 		}
