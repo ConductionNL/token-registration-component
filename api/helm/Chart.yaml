@@ -5,6 +5,19 @@ name: trc
 version: 0.1.0
 home: trc.zaakonline.nl
 icon: trc.zaakonline.nl
+sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
+keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
 dependencies:
     - name: postgresql
       repository: https://charts.bitnami.com/bitnami

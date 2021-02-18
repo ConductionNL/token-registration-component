@@ -5,7 +5,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-02-17T09:07:48.304178Z"
+    created: "2021-02-18T13:29:22.2587502Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -37,14 +37,14 @@ entries:
   trc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-02-17T09:07:48.2717616Z"
+    created: "2021-02-18T13:29:22.2374437Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: d5a19e06c6f65f39fb4a675f4a1f5367893ca3e2f2c82fa76b2f6d2eff764f16
+    digest: 8215631d888d055e13e006ba9af79133804e7b401d8421695d4f108ee98f2d2c
     home: trc.zaakonline.nl
     icon: trc.zaakonline.nl
     name: trc
     urls:
     - trc-0.1.0.tgz
     version: 0.1.0
-generated: "2021-02-17T09:07:48.2324849Z"
+generated: "2021-02-18T13:29:22.1964471Z"
