@@ -4,15 +4,15 @@
 
 settings:
   registryBase: docker.io/conduction
-  projectName: trc
-  name: trc
+  projectName: token-registration-component
+  name: token-registration-component
   version: V1.0
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
-  repro: https://github.com/ConductionNL/proto-component
+  repro: https://github.com/ConductionNL/token-registration-component
   demo: trc.zaakonline.nl
   domain: conduction.nl
-  subdomain: trc
-  subpath: trc
+  subdomain: token-registration-component
+  subpath: token-registration-component
   subpathRouting: true
   env: dev
   web: false
