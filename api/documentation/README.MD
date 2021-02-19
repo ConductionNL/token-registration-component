@@ -1,4 +1,4 @@
-# trc
+# token-registration-component
 
 Description
 ----
